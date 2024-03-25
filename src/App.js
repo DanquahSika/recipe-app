@@ -1,20 +1,23 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Navbar from './components/navbar';
-import Recipe from './pages/recipe';
-import Recipes from './pages/recipes';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Recipe from "./pages/recipe";
+import Recipes from "./pages/recipes";
+import AddRecipe from "./pages/add-recipes";
 
 const router = createBrowserRouter([
-  {path:"/", element: <Recipes />},
-  {path: "/recipes", element: <Recipes />},   // {path: "/*", element: } 
-  {path: "/recipes/:id", element: <Recipe />}
+  { path: "/", element: <Recipes /> },
+  { path: "/recipes", element: <Recipes /> }, // {path: "/*", element: }
+  { path: "/recipes/:id", element: <Recipe /> },
+  { path: "/add-recipes/", element: <AddRecipe /> },
 ]);
 
 function App() {
   return (
     <>
-    <Navbar />
-    <RouterProvider router={router} />  {/*the components recipe and recipes have been replaced with this to allow to still show while the navbar stays and shows for every other page*/}
-   </>
+      <Navbar />
+      <RouterProvider router={router} />{" "}
+      {/*the components recipe and recipes have been replaced with this to allow to still show while the navbar stays and shows for every other page*/}
+    </>
   );
 }
 
