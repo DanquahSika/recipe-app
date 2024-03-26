@@ -1,79 +1,116 @@
-import React, { useState } from "react";
-import { TextField, Button, Container, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+  Alert,
+  Box,
+  Collapse,
+  Container,
+  IconButton,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import Navbar from "../../components/navbar";
 
-const AddRecipe = () => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [country, setCountry] = useState("");
-  const [recipeImage, setRecipeImage] = useState("");
+export const countries = [
+  { value: "GH", label: "Ghana" },
+  { value: "NG", label: "Nigeria" },
+  { value: "BE", label: "Benin" },
+  { value: "TG", label: "Togo" },
+];
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+export default function AddRecipe() {
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("New Recipe Added Successfully!");
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("country", country);
-    formData.append("recipeImage", recipeImage);
-
-    try {
-      const response = await fetch("http://localhost:3001/api/recipes", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const addRecipe = async (event) => {
+    // Set loading to true
+    // Prevent default form submit behavior
+    // Get form data
+    // Post form data to the backend
+    // Update message based on response status
+    // Open collapsible Alert
+    // Set loading to false
   };
 
   return (
-    <React.Fragment>
-      <h2>Add Recipe</h2>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
+    <>
+      <Navbar />
+      <Container sx={{ my: "2rem" }} maxWidth="sm">
+        <h1>Add A New Recipe</h1>
+        <form>
           <TextField
-            type="text"
-            variant="outlined"
-            color="secondary"
-            label="Recipe Name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            sx={{ mb: "2rem" }}
             fullWidth
-            required
+            name="title"
+            label="Recipe Title"
           />
           <TextField
-            type="text"
-            variant="outlined"
-            color="secondary"
-            label="Description"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            sx={{ mb: "2rem" }}
             fullWidth
-            required
+            name="description"
+            label="Recipe Description"
+            multiline
+            rows={4}
           />
-        </Stack>
-        <TextField
-          type="text"
-          variant="outlined"
-          color="secondary"
-          label="Country"
-          onChange={(e) => setCountry(e.target.value)}
-          value={country}
-          fullWidth
-          required
-          sx={{ mb: 4 }}
-        />
-        <input type="file" onChange={(e) => setRecipeImage(e.target.files[0])} />
-        <Button variant="outlined" color="secondary" type="submit">
-          Add Recipe
-        </Button>
-      </form>
-      <Link to="/">Back to Home</Link>
-    </React.Fragment>
-  );
-};
+          <TextField
+            sx={{ mb: "2rem" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            type="file"
+            fullWidth
+            name="image"
+            label="Recipe Image"
+          />
+          <TextField
+            sx={{ mb: "2rem" }}
+            select
+            fullWidth
+            name="country"
+            label="Recipe Country"
+            defaultValue="GH"
+          >
+            {countries.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Box textAlign="center">
+            <Collapse in={open}>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <Close fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {message}
+              </Alert>
+            </Collapse>
 
-export default AddRecipe;
+            <LoadingButton
+              sx={{ width: "50%" }}
+              loading={loading}
+              type="submit"
+              size="large"
+              variant="contained"
+            >
+              Add New Recipe
+            </LoadingButton>
+          </Box>
+        </form>
+      </Container>
+    </>
+  );
+}

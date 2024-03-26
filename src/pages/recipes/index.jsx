@@ -25,12 +25,12 @@ export default function Recipes() {
     setLoading(true);
     // prepare URL
     // const url = new URL("https://api.spoonacular.com/recipes/complexSearch");
-    const url = new URL("http://localhost:4000/recipes");
-    url.searchParams.append(
-      "apiKey",
-      process.env.REACT_APP_SPOONACULAR_API_KEY
-    );
-    url.searchParams.append("query", keyword);
+    const url = new URL(`${process.env.REACT_APP_RECIPE_API_URL/recipes}`);
+    // url.searchParams.append(
+    //   "apiKey",
+    //   process.env.REACT_APP_SPOONACULAR_API_KEY
+    // );
+    // url.searchParams.append("query", keyword);
     // fetch recipes from the API
     // setRecipes will be updated with the recipe state
     // url.searchParams.append('number', 2) to specify the number of recipes to show
